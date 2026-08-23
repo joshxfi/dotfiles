@@ -31,6 +31,6 @@ require("lazy").setup({
 	checker = { enabled = true },
 })
 
--- vim.opt.runtimepath:prepend("/Users/joshxfi/projects/open-source/ngit")
+-- vim.opt.runtimepath:prepend(vim.fn.expand("~/projects/open-source/ngit"))
 -- vim.cmd.runtime("plugin/ngit.lua")
 -- require("ngit").setup()

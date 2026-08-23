@@ -22,7 +22,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "afplay -v 0.8 \"$HOME/.claude/sounds/orb.mp3\" 2>/dev/null || true",
+            "command": "\"$HOME/.claude/hooks/play-sound.sh\" orb",
             "async": true
           }
         ]
@@ -33,7 +33,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "afplay -v 0.8 \"$HOME/.claude/sounds/notification.mp3\" 2>/dev/null || true",
+            "command": "\"$HOME/.claude/hooks/play-sound.sh\" notification",
             "async": true
           }
         ]
@@ -45,7 +45,7 @@
         "hooks": [
           {
             "type": "command",
-            "command": "afplay -v 0.8 \"$HOME/.claude/sounds/error.mp3\" 2>/dev/null || true",
+            "command": "\"$HOME/.claude/hooks/play-sound.sh\" error",
             "async": true
           }
         ]
