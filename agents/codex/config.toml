@@ -79,10 +79,6 @@ fast_default_opt_out = true
 [notice.model_migrations]
 "gpt-5.1-codex-max" = "gpt-5.2-codex"
 
-[[skills.config]]
-path = "/Users/joshxfi/.codex/skills/frontend-skill/SKILL.md"
-enabled = false
-
 [marketplaces.openai-bundled]
 source_type = "local"
 source = "/Users/joshxfi/.codex/.tmp/bundled-marketplaces/openai-bundled"
