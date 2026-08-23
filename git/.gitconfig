@@ -1,0 +1,3 @@
+# Keep identity and credential helpers in ~/.gitconfig.local.
+[include]
+	path = ~/.gitconfig.local

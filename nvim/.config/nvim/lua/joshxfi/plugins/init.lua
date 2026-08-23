@@ -1,0 +1,52 @@
+return {
+	{
+		"kylechui/nvim-surround",
+		version = "^3.0.0", -- Use for stability; omit to use `main` branch for the latest features
+		event = "VeryLazy",
+		opts = {},
+	},
+
+	{ "AndreM222/copilot-lualine" },
+
+	{
+		"windwp/nvim-autopairs",
+		event = "InsertEnter",
+		config = true,
+		opts = {},
+	},
+
+	{
+		"zbirenbaum/copilot.lua",
+		cmd = "Copilot",
+		event = "InsertEnter",
+		opts = {
+			suggestion = { enabled = false },
+			panel = { enabled = false },
+			filetypes = {
+				markdown = true,
+				help = true,
+			},
+		},
+	},
+
+	{
+		"lewis6991/gitsigns.nvim",
+		opts = {
+			signs = {
+				add = { text = "+" },
+				change = { text = "~" },
+				delete = { text = "_" },
+				topdelete = { text = "‾" },
+				changedelete = { text = "~" },
+			},
+		},
+	},
+	{
+		"joshxfi/ngit.nvim",
+		cmd = { "NGit", "NGitLog", "NGitBranches", "NGitStashes", "NGitClose", "NGitRefresh" },
+		keys = {
+			{ "<leader>ng", "<cmd>NGit<cr>", desc = "Open ngit" },
+		},
+		opts = {},
+	},
+}

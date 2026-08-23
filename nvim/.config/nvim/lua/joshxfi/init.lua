@@ -1,0 +1,1 @@
+require("joshxfi.config.lazy")

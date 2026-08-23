@@ -1,0 +1,12 @@
+# Appearance
+theme = ayu
+font-size = 16
+cursor-style = block
+macos-icon = xray
+background-opacity = 0.8
+background-blur-radius = 18
+
+# Behavior
+shell-integration-features = no-cursor
+window-inherit-font-size = false
+macos-option-as-alt = true
