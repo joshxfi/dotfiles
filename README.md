@@ -5,10 +5,10 @@ single source of truth for every managed configuration.
 
 ## Managed configuration
 
-- `ghostty/.config/ghostty/config`
-- `nvim/.config/nvim`
-- `zsh/.zshrc` and `zsh/.config/zsh/`
-- `git/.gitconfig`
+- `ghostty/config`
+- `nvim/`
+- `zsh/`
+- `git/config`
 
 Machine-specific or private settings stay outside this repository:
 

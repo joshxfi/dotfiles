@@ -29,11 +29,11 @@ link_config() {
   printf 'Linked:        %s -> %s\n' "$target_path" "$source_path"
 }
 
-link_config "$dotfiles_root/zsh/.zshrc" "$HOME/.zshrc"
-link_config "$dotfiles_root/zsh/.config/zsh" "$HOME/.config/zsh"
-link_config "$dotfiles_root/git/.gitconfig" "$HOME/.gitconfig"
-link_config "$dotfiles_root/ghostty/.config/ghostty/config" "$HOME/.config/ghostty/config"
-link_config "$dotfiles_root/nvim/.config/nvim" "$HOME/.config/nvim"
+link_config "$dotfiles_root/zsh/zshrc" "$HOME/.zshrc"
+link_config "$dotfiles_root/zsh" "$HOME/.config/zsh"
+link_config "$dotfiles_root/git/config" "$HOME/.gitconfig"
+link_config "$dotfiles_root/ghostty/config" "$HOME/.config/ghostty/config"
+link_config "$dotfiles_root/nvim" "$HOME/.config/nvim"
 
 if [ ! -e "$HOME/.zshrc.local" ]; then
   printf '%s\n' '# Machine-specific shell settings and secrets go here.' > "$HOME/.zshrc.local"
