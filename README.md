@@ -9,11 +9,18 @@ single source of truth for every managed configuration.
 - `nvim/`
 - `zsh/`
 - `git/config`
+- `agents/skills/` — shared user-installed agent skills
+- `agents/codex/` — Codex settings, rules, hooks, and Codex-only skills
+- `agents/claude/` — Claude Code settings, rules, hooks, and sounds
 
 Machine-specific or private settings stay outside this repository:
 
 - `~/.zshrc.local`
 - `~/.gitconfig.local`
+
+Authentication, sessions, histories, databases, caches, generated files, and
+downloaded plugin/runtime bundles are intentionally not managed. Codex and
+Claude recreate those locally; sign-in remains a separate setup step.
 
 ## Set up a new Mac
 

@@ -1,0 +1,2 @@
+# Preserve third-party installed skills exactly as published upstream.
+agents/skills/** -whitespace

@@ -35,6 +35,22 @@ link_config "$dotfiles_root/git/config" "$HOME/.gitconfig"
 link_config "$dotfiles_root/ghostty/config" "$HOME/.config/ghostty/config"
 link_config "$dotfiles_root/nvim" "$HOME/.config/nvim"
 
+# Agent tools: portable settings, instructions, hooks, and user-installed skills.
+link_config "$dotfiles_root/agents/skills" "$HOME/.agents/skills"
+link_config "$dotfiles_root/agents/skill-lock.json" "$HOME/.agents/.skill-lock.json"
+link_config "$dotfiles_root/agents/codex/AGENTS.md" "$HOME/.codex/AGENTS.md"
+link_config "$dotfiles_root/agents/codex/config.toml" "$HOME/.codex/config.toml"
+link_config "$dotfiles_root/agents/codex/hooks.json" "$HOME/.codex/hooks.json"
+link_config "$dotfiles_root/agents/codex/herdr-agent-state.sh" "$HOME/.codex/herdr-agent-state.sh"
+link_config "$dotfiles_root/agents/codex/rules" "$HOME/.codex/rules"
+link_config "$dotfiles_root/agents/codex/skills/frontend-skill" "$HOME/.codex/skills/frontend-skill"
+link_config "$dotfiles_root/agents/codex/skills/hatch-pet" "$HOME/.codex/skills/hatch-pet"
+link_config "$dotfiles_root/agents/claude/CLAUDE.md" "$HOME/.claude/CLAUDE.md"
+link_config "$dotfiles_root/agents/claude/settings.json" "$HOME/.claude/settings.json"
+link_config "$dotfiles_root/agents/claude/hooks" "$HOME/.claude/hooks"
+link_config "$dotfiles_root/agents/claude/rules" "$HOME/.claude/rules"
+link_config "$dotfiles_root/agents/claude/sounds" "$HOME/.claude/sounds"
+
 if [ ! -e "$HOME/.zshrc.local" ]; then
   printf '%s\n' '# Machine-specific shell settings and secrets go here.' > "$HOME/.zshrc.local"
   chmod 600 "$HOME/.zshrc.local"

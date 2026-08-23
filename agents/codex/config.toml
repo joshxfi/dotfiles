@@ -1,0 +1,242 @@
+model = "gpt-5.6-sol"
+model_reasoning_effort = "medium"
+personality = "pragmatic"
+notify = [ "/Users/joshxfi/.codex/computer-use/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient", "turn-ended" ]
+plan_mode_reasoning_effort = "high"
+service_tier = "default"
+
+[projects."/Users/joshxfi/projects/open-source/react-highlight-popover"]
+trust_level = "trusted"
+
+[projects."/Users/joshxfi/projects/work/referenta"]
+trust_level = "trusted"
+
+[projects."/Users/joshxfi/projects/startup/umamin"]
+trust_level = "trusted"
+
+[projects."/Users/joshxfi/projects/open-source/umedu-ccs"]
+trust_level = "trusted"
+
+[projects."/Users/joshxfi/projects/open-source/github-stats"]
+trust_level = "trusted"
+
+[projects."/Users/joshxfi/projects/open-source/math3ds-le"]
+trust_level = "trusted"
+
+[projects."/Users/joshxfi/projects/open-source/maths3ds-le"]
+trust_level = "trusted"
+
+[projects."/Users/joshxfi/projects/open-source/bun-local-llm"]
+trust_level = "trusted"
+
+[projects."/Users/joshxfi/projects/open-source/umedu"]
+trust_level = "trusted"
+
+[projects."/Users/joshxfi/projects/startup/frameyu"]
+trust_level = "trusted"
+
+[projects."/Users/joshxfi/projects/mkms"]
+trust_level = "trusted"
+
+[projects."/Users/joshxfi/projects/open-source/codex-stuff"]
+trust_level = "trusted"
+
+[projects."/Users/joshxfi/projects/open-source/noteside"]
+trust_level = "trusted"
+
+[projects."/Users/joshxfi/projects/open-source/ngit"]
+trust_level = "trusted"
+
+[projects."/Users/joshxfi/Library/Application Support/orca/rate-limit-pty-cwd"]
+trust_level = "trusted"
+
+[projects."/Users/joshxfi/Documents/Codex/2026-08-01/my"]
+trust_level = "trusted"
+
+[projects."/Users/joshxfi/Documents/Codex/2026-08-01/my-storage"]
+trust_level = "trusted"
+
+[projects."/Users/joshxfi/Documents/Codex/2026-08-01/my-storage-is-full-a"]
+trust_level = "trusted"
+
+[projects."/Users/joshxfi/Documents/Codex/2026-08-06/https-ylhcwftnwlzoeqtilnfj-supabase-co-rest-v1"]
+trust_level = "trusted"
+
+[projects."/Users/joshxfi/Documents/Codex/2026-08-06/https-ylhcwftnwlzoeqtilnfj-supabase-co-rest-v1-2"]
+trust_level = "trusted"
+
+[features]
+hooks = true
+shell_snapshot = true
+goals = true
+js_repl = false
+
+[notice]
+hide_gpt5_1_migration_prompt = true
+"hide_gpt-5.1-codex-max_migration_prompt" = true
+fast_default_opt_out = true
+
+[notice.model_migrations]
+"gpt-5.1-codex-max" = "gpt-5.2-codex"
+
+[[skills.config]]
+path = "/Users/joshxfi/.codex/skills/frontend-skill/SKILL.md"
+enabled = false
+
+[marketplaces.openai-bundled]
+source_type = "local"
+source = "/Users/joshxfi/.codex/.tmp/bundled-marketplaces/openai-bundled"
+
+[marketplaces.openai-primary-runtime]
+last_updated = "2026-08-20T16:08:20Z"
+source_type = "local"
+source = "/Users/joshxfi/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime"
+
+[marketplaces.posthog]
+last_updated = "2026-08-21T11:03:27Z"
+last_revision = "70e8e0a8b4052047f26956e8598d3a2ff0f4db14"
+source_type = "git"
+source = "https://github.com/PostHog/ai-plugin.git"
+
+[plugins."documents@openai-primary-runtime"]
+enabled = true
+
+[plugins."spreadsheets@openai-primary-runtime"]
+enabled = true
+
+[plugins."presentations@openai-primary-runtime"]
+enabled = true
+
+[plugins."codex-security@openai-curated"]
+enabled = true
+
+[plugins."linear@openai-curated"]
+enabled = true
+
+[plugins."chrome@openai-bundled"]
+enabled = true
+
+[plugins."sites@openai-bundled"]
+enabled = true
+
+[plugins."computer-use@openai-bundled"]
+enabled = true
+
+[plugins."pdf@openai-primary-runtime"]
+enabled = true
+
+[plugins."browser@openai-bundled"]
+enabled = true
+
+[plugins."template-creator@openai-primary-runtime"]
+enabled = true
+
+[plugins."visualize@openai-bundled"]
+enabled = true
+
+[plugins."figma@openai-curated"]
+enabled = true
+
+[plugins."codex-app-tools@openai-bundled"]
+enabled = true
+
+[tui.model_availability_nux]
+"gpt-5.5" = 2
+"gpt-5.6-sol" = 2
+
+[desktop]
+appearanceLightCodeThemeId = "codex"
+usePointerCursors = false
+selected-avatar-id = "custom:koi"
+followUpQueueMode = "queue"
+dock-icon-preference = "app-default"
+conversationDetailMode = "STEPS_PROSE"
+
+[desktop.appearanceLightChromeTheme]
+accent = "#0169cc"
+contrast = 45
+ink = "#0d0d0d"
+opaqueWindows = false
+surface = "#ffffff"
+
+[desktop.appearanceLightChromeTheme.fonts]
+[desktop.appearanceLightChromeTheme.semanticColors]
+diffAdded = "#00a240"
+diffRemoved = "#e02e2a"
+skill = "#751ed9"
+
+[desktop.appearanceDarkChromeTheme]
+accent = "#339cff"
+contrast = 60
+ink = "#ffffff"
+opaqueWindows = false
+surface = "#181818"
+
+[desktop.appearanceDarkChromeTheme.fonts]
+[desktop.appearanceDarkChromeTheme.semanticColors]
+diffAdded = "#40c977"
+diffRemoved = "#fa423e"
+skill = "#ad7bf9"
+
+[desktop.open-in-target-preferences]
+global = "terminal"
+
+[desktop.open-in-target-preferences.perPath]
+"/Users/joshxfi/projects/work/referenta" = "terminal"
+
+[mcp_servers.node_repl]
+args = []
+command = "/Applications/ChatGPT.app/Contents/Resources/cua_node/bin/node_repl"
+startup_timeout_sec = 120
+
+[mcp_servers.node_repl.env]
+NODE_REPL_NATIVE_PIPE_CONNECT_TIMEOUT_MS = "1000"
+NODE_REPL_NODE_MODULE_DIRS = "/Applications/ChatGPT.app/Contents/Resources/cua_node/lib/node_modules"
+NODE_REPL_NODE_PATH = "/Applications/ChatGPT.app/Contents/Resources/cua_node/bin/node"
+NODE_REPL_TRUSTED_CODE_PATHS = "/Users/joshxfi/.codex:/Applications/ChatGPT.app/Contents/Resources/cua_node/lib/node_modules"
+CODEX_HOME = "/Users/joshxfi/.codex"
+BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab"
+BROWSER_USE_TINYSKY_ENABLED = "0"
+NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = "Control the in-app browser in conjunction with the Browser Plugin."
+NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = "Control the Chrome browser in conjunction with the Chrome Plugin. Prefer this method of controlling Chrome over alternatives (such as Computer Use) unless the user explicitly mentions an alternative."
+NODE_REPL_INSTRUCTIONS_USE_CASE_COMPUTER_USE = "Control desktop apps on macOS through Computer Use."
+BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
+BROWSER_USE_CODEX_APP_VERSION = "26.818.41509"
+NODE_REPL_TRUSTED_SERVICES = '{"browser":"/Users/joshxfi/.codex/plugins/cache/openai-bundled/browser/26.818.41509/scripts/browser-service.mjs","sky":"@oai/sky/service"}'
+SKY_CUA_SERVICE_PATH = "/Users/joshxfi/.codex/computer-use/Codex Computer Use.app"
+CODEX_CLI_PATH = "/Applications/ChatGPT.app/Contents/Resources/codex"
+
+[mcp_servers.computer-use]
+command = "./Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient"
+args = [ "mcp" ]
+cwd = "."
+enabled = false
+
+[shell_environment_policy.set]
+NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S = "9230e2bd8b24b7ac7a0ba6774c64bf0d78ecdabbdd91d0ed627b02a587bae2df"
+
+[hooks.state]
+
+[hooks.state."/Users/joshxfi/.codex/hooks.json:pre_tool_use:0:0"]
+trusted_hash = "sha256:75ea2f5c6a2869c87664ac016158d2d02b5be3cff8b14298db27b9c34255dbfc"
+
+[hooks.state."/Users/joshxfi/.codex/hooks.json:permission_request:0:0"]
+trusted_hash = "sha256:291c6b7a702599fd82038793c7b51d23072fd805a6c6ef97afb984220cf35c47"
+
+[hooks.state."/Users/joshxfi/.codex/hooks.json:post_tool_use:0:0"]
+trusted_hash = "sha256:9d5c06b4ce5b87a0d93e1d8ca2739e740d9ae77316201ea1a11c0ed2aff0ab5d"
+
+[hooks.state."/Users/joshxfi/.codex/hooks.json:session_start:1:0"]
+trusted_hash = "sha256:29ff86e02e050576b90240314ea83d7064f72bcae02741f9deab06005ba75368"
+
+[hooks.state."/Users/joshxfi/.codex/hooks.json:user_prompt_submit:0:0"]
+trusted_hash = "sha256:0fa6fff79428f212c1c1b732529451bef5167dcbdf950fec683724a738d08af0"
+
+[hooks.state."/Users/joshxfi/.codex/hooks.json:subagent_start:0:0"]
+trusted_hash = "sha256:c7b0ad93e4428a5177f830226cd2c7c969ea4bbe79afe782932a3d6f364a0343"
+
+[hooks.state."/Users/joshxfi/.codex/hooks.json:subagent_stop:0:0"]
+trusted_hash = "sha256:730c3eb96d1fb32e87b7eb189931032dbe0adc41a6f4a8e9f62165c2d8f96a8a"
+
+[hooks.state."/Users/joshxfi/.codex/hooks.json:stop:0:0"]
+trusted_hash = "sha256:ae66402b609e55acbdc1b1ca80b2ffe63719ad26a01f85ec08f6cc27a5da6f38"
