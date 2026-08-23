@@ -47,9 +47,6 @@ trust_level = "trusted"
 [projects."/Users/joshxfi/projects/open-source/ngit"]
 trust_level = "trusted"
 
-[projects."/Users/joshxfi/Library/Application Support/orca/rate-limit-pty-cwd"]
-trust_level = "trusted"
-
 [projects."/Users/joshxfi/Documents/Codex/2026-08-01/my"]
 trust_level = "trusted"
 
@@ -210,29 +207,3 @@ enabled = false
 
 [shell_environment_policy.set]
 NODE_REPL_TRUSTED_BROWSER_CLIENT_SHA256S = "9230e2bd8b24b7ac7a0ba6774c64bf0d78ecdabbdd91d0ed627b02a587bae2df"
-
-[hooks.state]
-
-[hooks.state."/Users/joshxfi/.codex/hooks.json:pre_tool_use:0:0"]
-trusted_hash = "sha256:75ea2f5c6a2869c87664ac016158d2d02b5be3cff8b14298db27b9c34255dbfc"
-
-[hooks.state."/Users/joshxfi/.codex/hooks.json:permission_request:0:0"]
-trusted_hash = "sha256:291c6b7a702599fd82038793c7b51d23072fd805a6c6ef97afb984220cf35c47"
-
-[hooks.state."/Users/joshxfi/.codex/hooks.json:post_tool_use:0:0"]
-trusted_hash = "sha256:9d5c06b4ce5b87a0d93e1d8ca2739e740d9ae77316201ea1a11c0ed2aff0ab5d"
-
-[hooks.state."/Users/joshxfi/.codex/hooks.json:session_start:1:0"]
-trusted_hash = "sha256:29ff86e02e050576b90240314ea83d7064f72bcae02741f9deab06005ba75368"
-
-[hooks.state."/Users/joshxfi/.codex/hooks.json:user_prompt_submit:0:0"]
-trusted_hash = "sha256:0fa6fff79428f212c1c1b732529451bef5167dcbdf950fec683724a738d08af0"
-
-[hooks.state."/Users/joshxfi/.codex/hooks.json:subagent_start:0:0"]
-trusted_hash = "sha256:c7b0ad93e4428a5177f830226cd2c7c969ea4bbe79afe782932a3d6f364a0343"
-
-[hooks.state."/Users/joshxfi/.codex/hooks.json:subagent_stop:0:0"]
-trusted_hash = "sha256:730c3eb96d1fb32e87b7eb189931032dbe0adc41a6f4a8e9f62165c2d8f96a8a"
-
-[hooks.state."/Users/joshxfi/.codex/hooks.json:stop:0:0"]
-trusted_hash = "sha256:ae66402b609e55acbdc1b1ca80b2ffe63719ad26a01f85ec08f6cc27a5da6f38"
