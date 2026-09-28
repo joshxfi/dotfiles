@@ -51,9 +51,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/microsoft/playwright-cli.git",
       "skillPath": "skills/playwright-cli/SKILL.md",
-      "skillFolderHash": "ef9a12fdadfb2ad4b67d512a10e840979f162c3a",
+      "skillFolderHash": "fe74b7fb02fe5d0697d1e1359cb44e1f48d1fc54",
       "installedAt": "2026-06-28T09:53:48.359Z",
-      "updatedAt": "2026-07-16T03:11:13.901Z"
+      "updatedAt": "2026-09-07T07:29:37.406Z"
     },
     "improve": {
       "source": "shadcn/improve",
@@ -78,18 +78,27 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/anomalyco/browser-control.git",
       "skillPath": "skills/browser-control/SKILL.md",
-      "skillFolderHash": "b791c98582c488ee28277517b32450aaa94c84b4",
+      "skillFolderHash": "72445e853951b8353a9073a82dced6ff9aef2a3a",
       "installedAt": "2026-08-13T06:43:02.845Z",
-      "updatedAt": "2026-08-23T12:51:12.096Z"
+      "updatedAt": "2026-09-07T07:29:40.514Z"
     },
     "unslop": {
       "source": "cursor/plugins",
       "sourceType": "github",
       "sourceUrl": "https://github.com/cursor/plugins.git",
       "skillPath": "pstack/skills/unslop/SKILL.md",
-      "skillFolderHash": "6161508c5c7959b156ff0e4e10b510863b51f9cc",
+      "skillFolderHash": "e19dcc9c531f4609df38bc86c62cf0e8b6d8f444",
       "installedAt": "2026-08-23T12:42:57.957Z",
-      "updatedAt": "2026-08-23T12:42:57.957Z"
+      "updatedAt": "2026-09-14T07:48:29.240Z"
+    },
+    "install-anti-slop": {
+      "source": "dmmulroy/anti-slop",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/dmmulroy/anti-slop.git",
+      "skillPath": "skills/install-anti-slop/SKILL.md",
+      "skillFolderHash": "89044d21c75a367eac1ddbaf208e650b1a7d5820",
+      "installedAt": "2026-08-25T14:55:34.125Z",
+      "updatedAt": "2026-09-14T07:48:32.174Z"
     }
   },
   "dismissed": {

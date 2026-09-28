@@ -28,6 +28,16 @@ browser-control execute 'return { url: page.url(), title: await page.title() }'
 Use `browser-control doctor` only when setup or runtime behavior is unclear.
 `status` and `doctor` are observational and never start the relay.
 
+MCP startup, tool discovery, `skill`, and `session_current` do not contact the
+relay. The first operational tool call starts it if needed; relay-backed
+observational tools report unavailability instead of starting it.
+
+Ordinary CLI/MCP/SDK calls never replace a running relay. On a build mismatch,
+coordinate with other agents before running `browser-control relay restart`.
+It preserves browser tabs and durable sessions but resets JavaScript state and
+snapshot refs. A busy or timed-out drain leaves the old relay running; finish
+recordings/captures and disconnect raw CDP clients rather than forcing a stop.
+
 ```bash
 browser-control doctor
 browser-control status --json
@@ -69,6 +79,12 @@ session. Reset or delete releases an adopted user tab without closing it.
 
 Prefer adoption for authenticated browser state rather than reproducing login
 in a fresh page.
+
+Each relay controls one browser/profile at a time. A second extension connection
+cannot replace a healthy active connection. If `status` or `doctor` reports
+rejected competing connections, keep the extension enabled only in the intended
+browser/profile. To switch browsers, disconnect the incumbent extension first;
+creating a new execute session does not switch browsers.
 
 Completion: the selected page URL is the intended page, and later work either
 retains the returned session id or intentionally uses the MCP process session.
@@ -119,6 +135,9 @@ browser-control session reset github
 browser-control session delete github
 ```
 
+Deletion is idempotent for an explicit session id, so cleanup can be safely
+retried when that session is already absent.
+
 Every execute is journaled under
 `~/.browser-control/sessions/<id>/journal.jsonl`. The journal records code,
 status, duration, URL movement, warnings, handoffs, and bounded diagnostics.
@@ -158,6 +177,15 @@ await page.getByRole("heading", { name: /account|dashboard/i }).waitFor()
 return { authenticatedUrl: page.url(), title: await page.title() }
 ```
 
+After a resolved handoff, Browser Control waits through transient destination
+context replacement before returning, so this verification can remain in the
+same execute.
+
+For a handoff on another page, pass `{ page: otherPage }`. Readiness checks that
+page, not the session default. If a non-default page was replaced or closed,
+inspect the remaining pages rather than assuming an old Playwright reference
+now identifies its replacement.
+
 Tell the user what action is waiting. Human acknowledgment is not verification:
 always assert the expected URL or stable element after `handoff`. If the action
 was already completed and only the human step remains, call `handoff(message)`
@@ -165,6 +193,22 @@ without `start`. The default timeout is ten minutes.
 
 Completion: the prompt was presented only after WAIT was registered, the action
 settled, and the authenticated result was independently verified.
+
+### Password Manager Prompts
+
+Ordinary webpage fields and accessible open-shadow-root controls remain usable.
+1Password's inline menus are extension-owned iframes, not ordinary webpage DOM.
+Chromium blocks one extension from debugging another extension's pages; toolbar
+popups and native unlock, Touch ID, and Windows Hello prompts are not supported
+Playwright control surfaces.
+
+`target/cross-extension-page` means a permission boundary. Ask the user to finish
+or dismiss the prompt and retry; do not reset the page, read vault contents, or
+weaken browser security to get around it. Register `handoff` on the originating
+webpage before triggering a human-only prompt when possible. If the prompt
+already prevents attachment, give the user the required action directly rather
+than assuming an in-page handoff can be displayed. Verify the intended webpage
+state after the prompt is completed.
 
 ## Inspection Tools
 
@@ -179,12 +223,17 @@ Use the least expensive view that answers the question:
   baseline. A diff invalidates earlier refs and exposes refs only for added or
   changed current lines.
 - `ariaSnapshot(target?, { timeout })` returns Playwright's detailed YAML aria
-  tree when the compact snapshot omits needed structure. Text-control values are
-  omitted so password, token, search, numeric, range, and textarea contents do
-  not enter tool output. Await it separately; do not run other operations on the
-  same page concurrently.
+  tree when the compact snapshot omits needed structure. Native text-control
+  values, custom ARIA range values, and editable content are omitted so they do
+  not enter tool output. Await it separately; do not run other operations on
+  the same page concurrently.
 - `screenshotWithLabels({ page, path? })` adds visual labels and metadata when
   layout matters.
+- `screenshotDiff({ baseline, path?, threshold?, fullPage? })` compares a saved
+  PNG (absolute path or Buffer) with the current session page at CSS-pixel scale.
+  It returns `matches`, `changedPixels`, `changedRatio` (0..1), dimensions, and a
+  red-highlighted PNG. Omit `path` to return the image as execute media; otherwise
+  supply a fresh absolute `.png` path. Existing output files are never overwritten.
 
 ```js
 return await snapshot({ within: "main", maxItems: 200 })
@@ -194,6 +243,21 @@ return await screenshotWithLabels({ page })
 
 Saving an image and returning only `"ok"` proves file creation, not visual
 correctness. Return screenshot buffers through MCP when visual evidence matters.
+
+For visual regression checks, save a baseline before changing the UI:
+
+```ts
+await page.screenshot({ path: "/absolute/before.png", scale: "css" })
+// After the intended UI change, in the same viewport:
+return await screenshotDiff({ baseline: "/absolute/before.png" })
+```
+
+The threshold defaults to 0.1 and controls per-pixel color tolerance, not the
+allowed changed area. Set it to 0 for exact pixels. Antialiasing changes count.
+Settle animations yourself and use the same viewport and `fullPage` setting for
+both captures. Dimension mismatches fail explicitly; images are never resized.
+Comparisons are limited to PNGs of 32 MiB / 16 megapixels each. Screenshots and
+diffs include visible page content: inspect for private information before sharing.
 
 ## Execute Interface
 
@@ -301,6 +365,23 @@ browser-control secrets status github
 browser-control secrets run github -- ./github-cli repositories
 ```
 
+Generated TypeScript applications can own that wrapper internally through the
+public SDK:
+
+```ts
+import { SecretProfile } from "@opencode-ai/browser-control"
+import { Effect } from "effect"
+
+const result = await Effect.runPromise(SecretProfile.run({
+  name: "github",
+  command: process.execPath,
+  args: ["./github-cli.js", "repositories"],
+}))
+```
+
+The trusted worker receives `BC_SECRET_N` variables and its bounded output is
+redacted. The public SDK exposes profile metadata but never raw profile values.
+
 Refresh credentials normally renewed by a page reload with:
 
 ```bash
@@ -325,9 +406,34 @@ browser-control recording status --session github
 browser-control recording stop --session github
 ```
 
+Start, stop, and status accept `--json`. CDP stop/status results include a
+`quality` receipt: output dimensions/rate, source and retained-image counts/rates,
+coalesced/dropped frames, and `screenshotFallback`. The fallback means no
+compositor frames arrived and the video holds one stop-time screenshot; do not
+present that as recorded motion. Source counters count compositor events, not
+visually distinct frames. Low rates can be normal on a static page. Tab capture
+and older relays omit quality telemetry rather than inventing measurements.
+
+Explicit frame rates must be integers from 1 through 60 in either mode; invalid
+values fail instead of silently clamping. The start result reports the chosen rate.
+
 `--mode auto` uses tab capture for user-owned tabs and CDP for relay-owned tabs.
 Tab capture can include audio; CDP requires `ffmpeg` and has no audio. Use the
 command's `--help` for format and cursor options.
+
+CDP recordings preserve the starting CSS viewport (not a fixed 720p canvas),
+use high-quality source frames, and default to 60 fps. Use `--frame-rate 30`
+for smaller files. Actual motion still depends on Chrome delivering new frames;
+60 fps output does not guarantee 60 distinct frames. Larger viewports cost more
+CPU, transport bandwidth, and storage. Set the viewport before recording and do
+not change viewport/emulation mid-recording. Odd dimensions round down to even.
+
+Inspect an encoded frame at native size before sharing: the whole viewport must
+fill the frame, small text must be readable, and motion must not be a repeated
+still image. Do not crop and upscale a low-resolution capture to call it HD.
+On an older installed relay that shrinks the page into a padded corner, record
+the defect and coordinate a recorder update; changing the file's resolution is
+not a repair.
 
 Completion: stop the recorder, inspect the resulting media rather than only its
 existence, and report the viewport, state, and interaction path actually tested.
@@ -341,12 +447,24 @@ existence, and report the viewport, state, and interaction path actually tested.
 
 Common diagnoses:
 
-- `connected:false`: run a relay-backed command, then reload the unpacked
-  extension only if its reconnect loop does not recover.
+- `connected:false`: run a relay-backed command and allow the extension startup
+  or alarm wake-up to reconnect. Reload the unpacked extension only if that loop
+  does not recover.
 - Incompatible extension protocol: update either the extension or npm package;
   exact extension and relay release versions do not need to match.
-- Stale relay build: operational commands reject it with restart guidance;
-  rebuild the CLI and restart the relay.
+- Competing browser/profile connections: the active browser is preserved and
+  additional connections are rejected. Use one browser/profile per relay;
+  repeatedly creating sessions or resetting tabs does not switch browsers.
+- Stale relay build: inspect `doctor`, then coordinate an explicit
+  `browser-control relay restart`. It requires an exact managed instance and
+  safe shutdown protocol 2. Legacy relays need a one-time coordinated manual
+  stop; foreground/source or newer relays are never force-killed or downgraded.
+  MCP observational tools remain available on a mismatch.
+- Unexpected restart: inspect private endpoint-scoped
+  `~/.browser-control/relays/<port>/lifecycle.jsonl` for requester/build/instance
+  metadata. Preparing or selecting a development candidate must not restart the
+  daemon. Use isolated `runtime:prepare` / `runtime:select`, not a live checkout
+  link, when developing Browser Control itself.
 - `Target not found`: attach the intended tab, then select or adopt it using a
   unique URL substring or explicit index.
 - All targets disappeared: dismissing Chromium's debugging banner detaches every
@@ -365,6 +483,12 @@ Common diagnoses:
   shadow roots recursively; closed shadow roots remain unavailable.
 - Download wait fails: use fetch plus `fs`; extension-backed Playwright cannot
   retain a native download artifact.
+- Hover on an infinitely animated target: Playwright may never consider the
+  element stable. Read its current `getBoundingClientRect()` and use
+  `page.mouse.move()` when coordinate input is appropriate.
+- Chromium-protected pages such as the Chrome Web Store developer dashboard may
+  detach `chrome.debugger`. Do not retry or bypass that boundary; open the page
+  for manual operation.
 
 For deeper relay diagnosis, restart with `BROWSER_CONTROL_DEBUG=1`. Debug traces
 must never include expressions, arguments, results, headers, cookies, or form

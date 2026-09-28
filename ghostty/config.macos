@@ -10,3 +10,10 @@ background-blur-radius = 18
 shell-integration-features = no-cursor
 window-inherit-font-size = false
 macos-option-as-alt = true
+
+# Forward Cmd+h/j/k/l to herdr as kitty CSI-u (super modifier = 9).
+# Overrides macOS Hide (cmd+h) and Ghostty's clear_screen (cmd+k).
+keybind = cmd+h=csi:104;9u
+keybind = cmd+j=csi:106;9u
+keybind = cmd+k=csi:107;9u
+keybind = cmd+l=csi:108;9u

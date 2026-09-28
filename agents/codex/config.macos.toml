@@ -1,5 +1,5 @@
-model = "gpt-5.6-sol"
-model_reasoning_effort = "medium"
+model = "gpt-6-astra"
+model_reasoning_effort = "ultra"
 personality = "pragmatic"
 notify = [ "/Users/joshxfi/.codex/computer-use/Codex Computer Use.app/Contents/SharedSupport/SkyComputerUseClient.app/Contents/MacOS/SkyComputerUseClient", "turn-ended" ]
 plan_mode_reasoning_effort = "high"
@@ -62,6 +62,9 @@ trust_level = "trusted"
 [projects."/Users/joshxfi/Documents/Codex/2026-08-06/https-ylhcwftnwlzoeqtilnfj-supabase-co-rest-v1-2"]
 trust_level = "trusted"
 
+[projects."/Users/joshxfi/Documents/Codex/2026-09-03/how-x20"]
+trust_level = "trusted"
+
 [features]
 hooks = true
 shell_snapshot = true
@@ -81,13 +84,12 @@ source_type = "local"
 source = "/Users/joshxfi/.codex/.tmp/bundled-marketplaces/openai-bundled"
 
 [marketplaces.openai-primary-runtime]
-last_updated = "2026-08-20T16:08:20Z"
 source_type = "local"
 source = "/Users/joshxfi/.cache/codex-runtimes/codex-primary-runtime/plugins/openai-primary-runtime"
 
 [marketplaces.posthog]
-last_updated = "2026-08-21T11:03:27Z"
-last_revision = "70e8e0a8b4052047f26956e8598d3a2ff0f4db14"
+last_updated = "2026-09-10T15:47:41Z"
+last_revision = "33c066c80776a962a4233d76b20a3317733070b4"
 source_type = "git"
 source = "https://github.com/PostHog/ai-plugin.git"
 
@@ -131,6 +133,9 @@ enabled = true
 enabled = true
 
 [plugins."codex-app-tools@openai-bundled"]
+enabled = true
+
+[plugins."unified-computer-use@openai-bundled"]
 enabled = true
 
 [tui.model_availability_nux]
@@ -189,13 +194,13 @@ NODE_REPL_NODE_PATH = "/Applications/ChatGPT.app/Contents/Resources/cua_node/bin
 NODE_REPL_TRUSTED_CODE_PATHS = "/Users/joshxfi/.codex:/Applications/ChatGPT.app/Contents/Resources/cua_node/lib/node_modules"
 CODEX_HOME = "/Users/joshxfi/.codex"
 BROWSER_USE_AVAILABLE_BACKENDS = "chrome,iab"
-BROWSER_USE_TINYSKY_ENABLED = "0"
-NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = "Control the in-app browser in conjunction with the Browser Plugin."
-NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = "Control the Chrome browser in conjunction with the Chrome Plugin. Prefer this method of controlling Chrome over alternatives (such as Computer Use) unless the user explicitly mentions an alternative."
-NODE_REPL_INSTRUCTIONS_USE_CASE_COMPUTER_USE = "Control desktop apps on macOS through Computer Use."
+BROWSER_USE_TINYSKY_ENABLED = "1"
+NODE_REPL_INSTRUCTIONS_USE_CASE_BROWSER = ""
+NODE_REPL_INSTRUCTIONS_USE_CASE_CHROME = ""
+NODE_REPL_INSTRUCTIONS_USE_CASE_COMPUTER_USE = ""
 BROWSER_USE_CODEX_APP_BUILD_FLAVOR = "prod"
-BROWSER_USE_CODEX_APP_VERSION = "26.818.41509"
-NODE_REPL_TRUSTED_SERVICES = '{"browser":"/Users/joshxfi/.codex/plugins/cache/openai-bundled/browser/26.818.41509/scripts/browser-service.mjs","sky":"@oai/sky/service"}'
+BROWSER_USE_CODEX_APP_VERSION = "26.901.41123"
+NODE_REPL_TRUSTED_SERVICES = '{"browser":"/Users/joshxfi/.codex/plugins/cache/openai-bundled/browser/26.901.41123/scripts/browser-service.mjs","sky":"@oai/sky/service"}'
 SKY_CUA_SERVICE_PATH = "/Users/joshxfi/.codex/computer-use/Codex Computer Use.app"
 CODEX_CLI_PATH = "/Applications/ChatGPT.app/Contents/Resources/codex"
 

@@ -3,7 +3,7 @@
     "commit": "",
     "pr": ""
   },
-  "model": "opus[1m]",
+  "model": "opus",
   "hooks": {
     "SessionStart": [
       {
@@ -88,11 +88,22 @@
     }
   },
   "effortLevel": "xhigh",
+  "modelSettings": {
+    "claude-fable-5-1": {
+      "effortLevel": "high"
+    },
+    "claude-opus-5": {
+      "effortLevel": "high"
+    },
+    "claude-opus-5-5": {
+      "effortLevel": "high"
+    }
+  },
+  "askUserQuestionTimeout": "never",
   "skipDangerousModePermissionPrompt": true,
   "skipWorkflowUsageWarning": true,
   "theme": "dark",
   "verbose": true,
-  "skipAutoPermissionPrompt": true,
   "autoMode": {
     "soft_deny": [
       "$defaults",
