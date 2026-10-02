@@ -56,6 +56,12 @@ link_config "$dotfiles_root/ghostty/config.$platform" "$HOME/.config/ghostty/con
 link_config "$dotfiles_root/nvim" "$HOME/.config/nvim"
 link_config "$dotfiles_root/herdr/config.$platform.toml" "$HOME/.config/herdr/config.toml"
 
+if [ "$platform" = linux ]; then
+  link_config "$dotfiles_root/hypr" "$HOME/.config/hypr"
+  link_config "$dotfiles_root/noctalia" "$HOME/.config/noctalia"
+  link_config "$dotfiles_root/uwsm" "$HOME/.config/uwsm"
+fi
+
 # Agent tools: portable settings, instructions, hooks, and user-installed skills.
 link_config "$dotfiles_root/agents/skills" "$HOME/.agents/skills"
 link_config "$dotfiles_root/agents/skill-lock.json" "$HOME/.agents/.skill-lock.json"

@@ -7,6 +7,9 @@ repository is the source of truth for every managed configuration.
 
 - `ghostty/config.{macos,linux}`
 - `herdr/config.{macos,linux}.toml`
+- `hypr/`: Hyprland (Linux only)
+- `noctalia/`: Noctalia shell (Linux only)
+- `uwsm/`: UWSM session environment (Linux only)
 - `nvim/`
 - `zsh/`
 - `git/config`
