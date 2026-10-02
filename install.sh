@@ -70,6 +70,12 @@ link_config "$dotfiles_root/agents/claude/hooks" "$HOME/.claude/hooks"
 link_config "$dotfiles_root/agents/claude/rules" "$HOME/.claude/rules"
 link_config "$dotfiles_root/agents/claude/sounds" "$HOME/.claude/sounds"
 
+# Claude Code only reads ~/.claude/skills, so expose each shared skill there.
+for skill_path in "$dotfiles_root"/agents/skills/*/; do
+  skill_name=$(basename -- "$skill_path")
+  link_config "$dotfiles_root/agents/skills/$skill_name" "$HOME/.claude/skills/$skill_name"
+done
+
 if [ ! -e "$HOME/.zshrc.local" ]; then
   printf '%s\n' '# Machine-specific shell settings and secrets go here.' > "$HOME/.zshrc.local"
   chmod 600 "$HOME/.zshrc.local"
