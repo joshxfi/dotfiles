@@ -1,6 +1,8 @@
+command = /bin/zsh
+
 # Appearance
-theme = ayu
-font-size = 16
+theme = Ayu
+font-size = 14
 cursor-style = block
 background-opacity = 0.8
 background-blur-radius = 18

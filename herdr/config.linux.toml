@@ -29,3 +29,7 @@ command = "princejoogie.repo-picker.open"
 
 [ui.toast]
 delivery = "terminal"
+
+[terminal]
+# Force zsh for herdr panes regardless of inherited $SHELL.
+default_shell = "/usr/bin/zsh"
