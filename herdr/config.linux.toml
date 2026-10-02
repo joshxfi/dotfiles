@@ -17,9 +17,11 @@ navigate_pane_up = "up"
 navigate_pane_down = "down"
 # prefix+o is taken by the repo-picker binding below.
 open_notification_target = ""
-# No Cmd/Super forwarding on Linux (see ghostty/config.linux); prefix keys only.
-previous_tab = "prefix+p"
-next_tab = "prefix+n"
+# Alt+j/k walk workspaces, Alt+h/l walk tabs (macOS uses Cmd; Super is Hyprland's).
+next_workspace = "alt+j"
+previous_workspace = "alt+k"
+previous_tab = ["prefix+p", "alt+h"]
+next_tab = ["prefix+n", "alt+l"]
 
 # Repository Picker (princejoogie.repo-picker)
 [[keys.command]]
