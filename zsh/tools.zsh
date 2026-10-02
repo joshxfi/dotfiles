@@ -19,6 +19,7 @@ esac
 
 path=(
   "$HOME/.local/bin"
+  "$PNPM_HOME/bin"
   "$PNPM_HOME"
   "$HOME/.bun/bin"
   "$HOME/.lmstudio/bin"

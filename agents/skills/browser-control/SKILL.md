@@ -32,6 +32,10 @@ MCP startup, tool discovery, `skill`, and `session_current` do not contact the
 relay. The first operational tool call starts it if needed; relay-backed
 observational tools report unavailability instead of starting it.
 
+For an externally supervised relay, set `BROWSER_CONTROL_AUTOSTART=false` to
+make ordinary calls fail when that relay is absent instead of launching another
+process. Existing relay connections and explicit `relay restart` still work.
+
 Ordinary CLI/MCP/SDK calls never replace a running relay. On a build mismatch,
 coordinate with other agents before running `browser-control relay restart`.
 It preserves browser tabs and durable sessions but resets JavaScript state and
@@ -47,6 +51,12 @@ Completion: one execute returns a page result and a readable session id, or
 `doctor` identifies the concrete setup failure.
 
 ### 2. Choose The Page Deliberately
+
+The bundled shim 0.0.25 verifies debugger ownership during reconnection. Reload
+the unpacked extension after installing this shim update. DevTools-attached tabs
+are excluded from Browser Control's inventory. `page.title()` reads time out
+after five seconds if the page execution context remains unavailable; the read
+timeout does not close or replace the tab.
 
 A bare CLI execute creates a fresh session-owned page and prints the exact
 `--session <id>` continuation command. Every later CLI call must pass that id or
@@ -71,11 +81,25 @@ browser-control execute --target-url github.com 'return page.url()'
 browser-control session adopt --target-url github.com --session github
 ```
 
+`execute --target-url` selects a page for that call only. Continuing with just
+`--session` uses the session's default page, which may still be `about:blank`.
+For a multi-step task in an existing user tab, adopt it first. Always include
+`page.url()` when diagnosing an empty snapshot. Snapshot labels are compact
+descriptions; use `ref()` for actions rather than assuming their text is an
+exact Playwright accessible name.
+
 `targetUrl` and `targetIndex` select existing attached pages; they never
 navigate. A URL selector must match exactly one page, and URL and index selectors
 cannot be combined. Adoption makes that tab the session default, closes the
 session's previous relay-created page, and is exclusive to one Browser Control
 session. Reset or delete releases an adopted user tab without closing it.
+
+Adoption binds ownership and exact target identity before initializing automation.
+Until the first execute resolves the page, session status reports `connected:
+false` and `pageUrl: null`; `adoptedUrl` is the registry-selected URL, not a fresh
+page read. A busy page can produce `session-page/adopted-initialization-timeout`
+on execute: user code did not run, and the exact adopted target is retained.
+Retry after the page settles; do not reset or adopt a different tab to recover.
 
 Prefer adoption for authenticated browser state rather than reproducing login
 in a fresh page.
@@ -113,7 +137,7 @@ they rely on transient UI such as an open menu, selected rows, hover state, or
 an in-progress form.
 
 If native `locator.fill()` hangs because a browser extension interferes with
-focus, use the explicit `input`/`textarea` fallback:
+focus, use the explicit input, textarea, or contenteditable fallback:
 
 ```js
 await fillInput(page.getByPlaceholder("Username"), "standard_user")
@@ -181,6 +205,10 @@ After a resolved handoff, Browser Control waits through transient destination
 context replacement before returning, so this verification can remain in the
 same execute.
 
+With `start`, the handoff deadline and target cancellation remain active until
+the action settles, even if the user has already pressed Continue. An early
+acknowledgment does not authorize an indefinitely pending action.
+
 For a handoff on another page, pass `{ page: otherPage }`. Readiness checks that
 page, not the session default. If a non-default page was replaced or closed,
 inspect the remaining pages rather than assuming an old Playwright reference
@@ -194,6 +222,18 @@ without `start`. The default timeout is ten minutes.
 Completion: the prompt was presented only after WAIT was registered, the action
 settled, and the authenticated result was independently verified.
 
+To turn a user-demonstrated flow into reusable Playwright, use `demonstrate()`.
+It uses the same exact-tab handoff, records clicks, edits, checkbox/select
+changes, and same-tab navigations, then returns editable code:
+
+```ts
+return await demonstrate("Perform the workflow once, then continue")
+```
+
+Password fields become explicit secret-source comments rather than copied
+values. Review selectors and add outcome assertions before reusing generated
+code; a demonstration records actions, not proof that the workflow succeeded.
+
 ### Password Manager Prompts
 
 Ordinary webpage fields and accessible open-shadow-root controls remain usable.
@@ -202,9 +242,17 @@ Chromium blocks one extension from debugging another extension's pages; toolbar
 popups and native unlock, Touch ID, and Windows Hello prompts are not supported
 Playwright control surfaces.
 
+Focusing or filling a card-number or credential field can open the inline menu
+by itself, even inside a third-party payment iframe. While it is open, Chrome
+rejects every automation command for that tab; Playwright shows this as
+"Execution context was destroyed" or a locator timeout, so the execute result
+carries the `target/cross-extension-page` diagnostic and warning, and
+`browser-control status` marks the tab `protected-ui=true`.
+
 `target/cross-extension-page` means a permission boundary. Ask the user to finish
 or dismiss the prompt and retry; do not reset the page, read vault contents, or
-weaken browser security to get around it. Register `handoff` on the originating
+weaken browser security to get around it. The page itself is healthy: do not
+treat the failure as an unresponsive tab or create a new page. Register `handoff` on the originating
 webpage before triggering a human-only prompt when possible. If the prompt
 already prevents attachment, give the user the required action directly rather
 than assuming an in-page handoff can be displayed. Verify the intended webpage
@@ -217,11 +265,21 @@ Use the least expensive view that answers the question:
 - `snapshot()` is the compact read-before-act default. It prioritizes semantic
   groups, alerts, lists, tables, headings, links, and controls. Text input and
   textarea values are omitted.
+- The default snapshot scopes to a single visible modal when present; portal
+  dialogs outside `main` remain discoverable. Use an explicit `within` scope
+  when you intentionally need background content. Repeated list wrappers have
+  a bounded reservation so product links can still fit in a dense page.
+- Native number/search inputs are `spinbutton`/`searchbox`. Native disclosure
+  controls are labeled `summary`, which is an element kind rather than an ARIA
+  role; use the returned `ref()` to operate them.
 - `ref("e12")` resolves a control from the latest snapshot. Refs fail closed
-  after navigation or incompatible DOM drift.
+  after navigation or incompatible DOM drift. Compatible refs keep the same id
+  across repeated same-document captures.
 - `snapshot({ diff: true })` reports semantic changes from the compatible prior
-  baseline. A diff invalidates earlier refs and exposes refs only for added or
-  changed current lines.
+  baseline. `snapshot({ delta: true })` returns a full first baseline and compact
+  deltas afterward. Existing compatible refs remain usable.
+- `snapshot({ find: "checkout", context: 2 })` searches the bounded semantic
+  snapshot and returns matching lines with nearby context and actionable refs.
 - `ariaSnapshot(target?, { timeout })` returns Playwright's detailed YAML aria
   tree when the compact snapshot omits needed structure. Native text-control
   values, custom ARIA range values, and editable content are omitted so they do
@@ -237,6 +295,8 @@ Use the least expensive view that answers the question:
 
 ```js
 return await snapshot({ within: "main", maxItems: 200 })
+return await snapshot({ find: /checkout|payment/i, context: 2 })
+return await snapshot({ delta: true })
 // When layout matters, return the image through MCP so it can be inspected.
 return await screenshotWithLabels({ page })
 ```
@@ -282,6 +342,20 @@ Playwright downloads are unavailable through extension-backed tabs because
 Chromium blocks download artifact control through `chrome.debugger`. If the
 page exposes the payload through fetch or an API response, read the bytes in the
 page and write them with `fs`. Do not retry `page.waitForEvent("download")`.
+
+Pages with WebMCP enabled can expose structured page tools. Discover and call
+them through the execute helper; names, descriptions, schemas, and results come
+from the page:
+
+```ts
+const tools = await webmcp.list()
+const result = await webmcp.call("search_catalog", { query: "adapter" })
+return { tools, result }
+```
+
+Discovery covers all frames. If the same name appears in multiple frames, pass
+the exact reported frame label as `{ frame }`. Browser Control re-discovers the
+tool immediately before invoking it, so stale registrations fail directly.
 
 ## Safety
 
@@ -351,7 +425,7 @@ browser-control network stop --session github \
 ```
 
 Written artifacts replace credential-bearing headers, cookies, query fields,
-and structured body fields with stable references such as `${BC_SECRET_1}`.
+OAuth fragment fields, and structured body fields with stable references such as `${BC_SECRET_1}`.
 `--secrets github` stores lossless values separately in a mode-`0600` Secret
 Profile. Never copy profile values into source, output, diagnostics, or journals,
 and never deliberately return or log credentials.
@@ -428,6 +502,21 @@ for smaller files. Actual motion still depends on Chrome delivering new frames;
 CPU, transport bandwidth, and storage. Set the viewport before recording and do
 not change viewport/emulation mid-recording. Odd dimensions round down to even.
 
+For failures that are hard to reproduce, keep a rolling CDP frame buffer and
+save recent history after the problem occurs:
+
+```bash
+browser-control flight-recorder start --session github --retention-ms 60000
+browser-control flight-recorder status --session github
+browser-control flight-recorder save-last ./tmp/failure.mp4 --session github --duration-ms 30000
+browser-control flight-recorder cancel --session github
+```
+
+Saving does not stop buffering. The recorder is memory-bounded, reports retained
+duration/frame/byte/drop counters, writes a JSON receipt beside each clip, and is
+mutually exclusive with ordinary recording on the same tab. CLI recording and
+flight-recorder lifecycle operations are also available as MCP tools.
+
 Inspect an encoded frame at native size before sharing: the whole viewport must
 fill the frame, small text must be readable, and motion must not be a repeated
 still image. Do not crop and upscale a low-resolution capture to call it HD.
@@ -447,6 +536,12 @@ existence, and report the viewport, state, and interaction path actually tested.
 
 Common diagnoses:
 
+- `session-page/context-read-timeout; operation=page.title; timeoutMs=5000`:
+  the title read did not finish within its budget. The execution context may be
+  unavailable or busy; this does not prove a frozen renderer. The watchdog does
+  not cancel the underlying read or trigger page replacement. A cached
+  `page.url()` read can still work; retry the page read after the page settles.
+  Ordinary missing-locator timeouts do not receive this diagnostic.
 - `connected:false`: run a relay-backed command and allow the extension startup
   or alarm wake-up to reconnect. Reload the unpacked extension only if that loop
   does not recover.
@@ -476,11 +571,26 @@ Common diagnoses:
   inventory, Browser Control forgets the dead identity without closing a
   guessed tab.
 - Repeated execution-context errors: run one short follow-up so Browser Control
-  can health-check the page. It may recreate a relay-owned page, but it never
-  replaces an unhealthy adopted user tab; reset or re-adopt that tab.
+  can health-check the page. A live page is kept: Browser Control reconnects and
+  re-resolves the same tab once, then fails with a `session-page/*-unresponsive`
+  diagnosis if the page still does not answer. Only a crashed, `about:blank`, or
+  `chrome-error://` relay-owned page is closed and recreated. It never replaces
+  an adopted user tab. When a page stays unresponsive (bot-protected sites can
+  stall the main world for automation while rendering normally for the human),
+  open a fresh tab with `context.newPage()` or hand the tab to the user.
+- Handoff ends with "page execution context did not become available": the user
+  finished; only Browser Control's view of the tab is stale. Run a short
+  follow-up execute so the page is re-checked instead of assuming it was lost.
 - Fill timeout on login fields: inspect first, then try `fillInput` after
   confirming the selector or locator resolves. String selectors search open
   shadow roots recursively; closed shadow roots remain unavailable.
+- Click blocked by a verified dialog backdrop: inspect the exact target and
+  blocker first. If the target is the approved action and Playwright actionability
+  alone is stale, dispatch `await locator.evaluate((element) => element.click())`,
+  then verify the result. Do not make dispatched clicks the default.
+- Hidden checkbox/radio input: click its visible associated label or wrapper,
+  then verify `isChecked()`. Do not force-click an invisible input or infer an
+  arbitrary ancestor.
 - Download wait fails: use fetch plus `fs`; extension-backed Playwright cannot
   retain a native download artifact.
 - Hover on an infinitely animated target: Playwright may never consider the

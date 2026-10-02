@@ -24,9 +24,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/vercel/ai.git",
       "skillPath": "skills/use-ai-sdk/SKILL.md",
-      "skillFolderHash": "9c7a408f9821ac144f11d7d60b77a36af3d38671",
+      "skillFolderHash": "f0a63823ca82c30c6af320e94cbed1d769503196",
       "installedAt": "2026-03-20T04:36:12.470Z",
-      "updatedAt": "2026-07-16T03:10:41.176Z"
+      "updatedAt": "2026-10-01T09:52:59.675Z"
     },
     "vercel-composition-patterns": {
       "source": "vercel-labs/agent-skills",
@@ -42,18 +42,18 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/antfu/skills.git",
       "skillPath": "skills/vitest/SKILL.md",
-      "skillFolderHash": "6e59e3b95305499c21fc401b3dbddedbb8ead8a6",
+      "skillFolderHash": "0ed74afc98af8324843b8514184c43cd6d6411ef",
       "installedAt": "2026-05-10T17:38:46.332Z",
-      "updatedAt": "2026-06-25T16:31:06.290Z"
+      "updatedAt": "2026-10-01T09:53:03.609Z"
     },
     "playwright-cli": {
       "source": "microsoft/playwright-cli",
       "sourceType": "github",
       "sourceUrl": "https://github.com/microsoft/playwright-cli.git",
       "skillPath": "skills/playwright-cli/SKILL.md",
-      "skillFolderHash": "fe74b7fb02fe5d0697d1e1359cb44e1f48d1fc54",
+      "skillFolderHash": "6b746b43751be277378e0ee04fe0db69f24da045",
       "installedAt": "2026-06-28T09:53:48.359Z",
-      "updatedAt": "2026-09-07T07:29:37.406Z"
+      "updatedAt": "2026-10-01T09:53:06.300Z"
     },
     "improve": {
       "source": "shadcn/improve",
@@ -69,27 +69,27 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/emilkowalski/skills.git",
       "skillPath": "skills/emil-design-eng/SKILL.md",
-      "skillFolderHash": "175725745e70946d891b93a1694d7c9ebb71b69d",
+      "skillFolderHash": "db7a20dc1d8ad26a0307dcb45ebc79fc372f5c69",
       "installedAt": "2026-07-22T02:49:03.903Z",
-      "updatedAt": "2026-07-22T02:49:03.903Z"
+      "updatedAt": "2026-10-01T09:53:08.691Z"
     },
     "browser-control": {
       "source": "anomalyco/browser-control",
       "sourceType": "github",
       "sourceUrl": "https://github.com/anomalyco/browser-control.git",
       "skillPath": "skills/browser-control/SKILL.md",
-      "skillFolderHash": "72445e853951b8353a9073a82dced6ff9aef2a3a",
+      "skillFolderHash": "d9fbbd462d810660b96a32443a3dee217e549242",
       "installedAt": "2026-08-13T06:43:02.845Z",
-      "updatedAt": "2026-09-07T07:29:40.514Z"
+      "updatedAt": "2026-10-01T09:53:11.601Z"
     },
     "unslop": {
       "source": "cursor/plugins",
       "sourceType": "github",
       "sourceUrl": "https://github.com/cursor/plugins.git",
       "skillPath": "pstack/skills/unslop/SKILL.md",
-      "skillFolderHash": "e19dcc9c531f4609df38bc86c62cf0e8b6d8f444",
+      "skillFolderHash": "d5baa969e71c4ddb563412b0ec170fa3b05b6d6e",
       "installedAt": "2026-08-23T12:42:57.957Z",
-      "updatedAt": "2026-09-14T07:48:29.240Z"
+      "updatedAt": "2026-10-01T09:53:15.146Z"
     },
     "install-anti-slop": {
       "source": "dmmulroy/anti-slop",
