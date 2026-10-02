@@ -6,6 +6,7 @@ repository is the source of truth for every managed configuration.
 ## Managed configuration
 
 - `ghostty/config.{macos,linux}`
+- `herdr/config.{macos,linux}.toml`
 - `nvim/`
 - `zsh/`
 - `git/config`
@@ -32,7 +33,8 @@ git clone git@github.com:joshxfi/dotfiles.git ~/.dotfiles
 The installer creates symbolic links. If a destination already exists, it is
 moved to a timestamped directory under `~/.dotfiles-backups/` first.
 
-It detects macOS or Linux and selects the matching Ghostty and Codex profiles.
+It detects macOS or Linux and selects the matching Ghostty, herdr, and Codex
+profiles.
 The shared Zsh config uses `~/Library/pnpm` on macOS. On Linux it uses
 `$XDG_DATA_HOME/pnpm`, falling back to `~/.local/share/pnpm`. Claude sound hooks
 use the first available player from `afplay`, `pw-play`, `paplay`, or `aplay`.
@@ -42,6 +44,13 @@ For containers or unusual environments, override detection with
 
 ```sh
 DOTFILES_PLATFORM=linux ~/.dotfiles/install.sh
+```
+
+herdr plugins are not managed. Install the repository picker (bound to
+`prefix+o`, requires `bun`) separately:
+
+```sh
+herdr plugin install princejoogie/herdr-repo-picker
 ```
 
 ## Daily use

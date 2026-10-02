@@ -54,6 +54,7 @@ link_config "$dotfiles_root/zsh" "$HOME/.config/zsh"
 link_config "$dotfiles_root/git/config" "$HOME/.gitconfig"
 link_config "$dotfiles_root/ghostty/config.$platform" "$HOME/.config/ghostty/config"
 link_config "$dotfiles_root/nvim" "$HOME/.config/nvim"
+link_config "$dotfiles_root/herdr/config.$platform.toml" "$HOME/.config/herdr/config.toml"
 
 # Agent tools: portable settings, instructions, hooks, and user-installed skills.
 link_config "$dotfiles_root/agents/skills" "$HOME/.agents/skills"

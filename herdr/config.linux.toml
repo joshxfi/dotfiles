@@ -1,0 +1,31 @@
+onboarding = false
+
+[ui]
+pane_gaps = false
+
+[ui.sound]
+enabled = false
+
+[keys]
+prefix = "ctrl+a"
+# prefix+/ focuses the sidebar spaces list (NAVIGATE mode).
+workspace_picker = "prefix+/"
+navigate_workspace_up = "k"
+navigate_workspace_down = "j"
+# panes move to the arrows since j/k now walk workspaces
+navigate_pane_up = "up"
+navigate_pane_down = "down"
+# prefix+o is taken by the repo-picker binding below.
+open_notification_target = ""
+# No Cmd/Super forwarding on Linux (see ghostty/config.linux); prefix keys only.
+previous_tab = "prefix+p"
+next_tab = "prefix+n"
+
+# Repository Picker (princejoogie.repo-picker)
+[[keys.command]]
+key = "prefix+o"
+type = "plugin_action"
+command = "princejoogie.repo-picker.open"
+
+[ui.toast]
+delivery = "terminal"
