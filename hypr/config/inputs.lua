@@ -4,6 +4,7 @@ hl.config({
     input = {
         -- sensitivity = -0.25,
         accel_profile = "flat",
+        kb_options = "ctrl:nocaps", -- Caps Lock acts as Left Ctrl (herdr prefix: Caps+A)
     },
     -- Uncomment the section below to enable software cursors; this can help with cursor display or behavior issues
     -- cursor = {
