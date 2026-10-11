@@ -16,3 +16,6 @@ source "$HOME/.config/zsh/tools.zsh"
 
 # Private and machine-specific configuration
 [[ -r "$HOME/.zshrc.local" ]] && source "$HOME/.zshrc.local"
+
+# bun completions
+[ -s "/Users/joshxfi/.bun/_bun" ] && source "/Users/joshxfi/.bun/_bun"
