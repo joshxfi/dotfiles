@@ -79,17 +79,18 @@ parts+=("$location")
 
 # Context window bar
 pct="${ctx:-0}"
-filled=$((pct * 10 / 100))
+filled=$(((pct * 10 + 50) / 100))
+[ "$pct" -gt 0 ] && [ "$filled" -eq 0 ] && filled=1
 [ "$filled" -gt 10 ] && filled=10
-bar=""
+used="" free=""
 for ((i = 0; i < 10; i++)); do
-  if [ "$i" -lt "$filled" ]; then bar+="▓"; else bar+="░"; fi
+  if [ "$i" -lt "$filled" ]; then used+="━"; else free+="━"; fi
 done
 color=$(level_color "$pct")
 if [ -n "$ctx" ]; then
-  parts+=("${color}$bar $pct%${reset}")
+  parts+=("${color}$used${reset}${dim}$free${reset} ${color}$pct%${reset}")
 else
-  parts+=("${dim}$bar --${reset}")
+  parts+=("${dim}$free --${reset}")
 fi
 
 # Session diff
