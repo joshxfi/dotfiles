@@ -62,8 +62,10 @@ if git_out=$(git -C "$cwd" --no-optional-locks status --porcelain=v2 --branch 2>
   [ "$head" = "(detached)" ] && head="${oid:0:7}"
   git_seg=" on ${magenta}"$'\xee\x82\xa0'" $head"
   [ -n "$dirty" ] && git_seg+="${red}!"
-  [ "$ahead" -gt 0 ] && git_seg+="${cyan}↑$ahead"
-  [ "$behind" -gt 0 ] && git_seg+="${cyan}↓$behind"
+  sync=""
+  [ "$ahead" -gt 0 ] && sync+="↑$ahead"
+  [ "$behind" -gt 0 ] && sync+="↓$behind"
+  [ -n "$sync" ] && git_seg+=" ${cyan}$sync"
   location+="$git_seg${reset}"
 fi
 [ -n "$worktree" ] && location+=" ${dim}⎇ $worktree${reset}"
