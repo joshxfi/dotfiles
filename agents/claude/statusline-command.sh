@@ -2,11 +2,16 @@
 # Claude Code status line: path, git, context bar, session diff, model, limits
 input=$(cat)
 
+# Every value is forced to a single string before @sh, since @sh splits
+# arrays into separate words, and control characters are stripped so
+# nothing can inject terminal escapes
 eval "$(jq -r '
-  def n(f): (f // "") | if type == "number" then floor else . end;
-  @sh "cwd=\(.workspace.current_dir // .cwd // "")
-model=\(.model.display_name // "")
-effort=\(.effort.level // "")
+  def s(f): (f // "") | if type == "string" then . else tojson end
+    | gsub("[[:cntrl:]]"; "");
+  def n(f): (f // "") | if type == "number" then floor | tostring else "" end;
+  @sh "cwd=\(s(.workspace.current_dir // .cwd))
+model=\(s(.model.display_name))
+effort=\(s(.effort.level))
 fast=\(.fast_mode == true | tostring)
 ctx=\(n(.context_window.used_percentage))
 added=\(n(.cost.total_lines_added))
@@ -15,9 +20,9 @@ rl5=\(n(.rate_limits.five_hour.used_percentage))
 rl5_reset=\(n(.rate_limits.five_hour.resets_at))
 rl7=\(n(.rate_limits.seven_day.used_percentage))
 rl7_reset=\(n(.rate_limits.seven_day.resets_at))
-worktree=\(.worktree.name // .workspace.git_worktree // "")
-pr=\(.pr.number // "")
-pr_state=\(.pr.review_state // "")
+worktree=\(s(.worktree.name // .workspace.git_worktree))
+pr=\(n(.pr.number))
+pr_state=\(s(.pr.review_state))
 cold=\(.prompt_cache.caching_observed == true and .prompt_cache.warm == false | tostring)"
 ' <<<"$input")"
 
