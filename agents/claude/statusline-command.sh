@@ -44,12 +44,10 @@ fmt_time() {
 
 parts=()
 
-# Path, shortened to the last two segments when long
+# Current folder name only
 dir="${cwd/#$HOME/~}"
-if [ "${#dir}" -gt 40 ]; then
-  parent="${dir%/*}"
-  dir="…/${parent##*/}/${dir##*/}"
-fi
+dir="${dir##*/}"
+[ -z "$dir" ] && dir="/"
 location="${bold_green}$dir${reset}"
 
 # Git: one status call gives branch, ahead/behind and dirty state
