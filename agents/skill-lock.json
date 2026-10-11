@@ -78,9 +78,9 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/anomalyco/browser-control.git",
       "skillPath": "skills/browser-control/SKILL.md",
-      "skillFolderHash": "d9fbbd462d810660b96a32443a3dee217e549242",
+      "skillFolderHash": "17cb957d007cf2c0d3ec99a0fc3c7c90d6032a88",
       "installedAt": "2026-08-13T06:43:02.845Z",
-      "updatedAt": "2026-10-01T09:53:11.601Z"
+      "updatedAt": "2026-10-07T12:53:50.783Z"
     },
     "unslop": {
       "source": "cursor/plugins",
@@ -99,6 +99,15 @@
       "skillFolderHash": "89044d21c75a367eac1ddbaf208e650b1a7d5820",
       "installedAt": "2026-08-25T14:55:34.125Z",
       "updatedAt": "2026-09-14T07:48:32.174Z"
+    },
+    "stackmap": {
+      "source": "omsimos/stackmap",
+      "sourceType": "github",
+      "sourceUrl": "https://github.com/omsimos/stackmap.git",
+      "skillPath": "skill/SKILL.md",
+      "skillFolderHash": "dfc3e0280154694f974fcf9d63c1c891736950be",
+      "installedAt": "2026-10-04T08:10:49.101Z",
+      "updatedAt": "2026-10-04T08:10:49.101Z"
     }
   },
   "dismissed": {
@@ -106,14 +115,13 @@
   },
   "lastSelectedAgents": [
     "amp",
-    "antigravity",
-    "antigravity-cli",
     "cline",
     "codex",
     "cursor",
-    "deepagents",
+    "droid",
     "gemini-cli",
     "github-copilot",
+    "kilo",
     "kimi-code-cli",
     "opencode",
     "warp",
