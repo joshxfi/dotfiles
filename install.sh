@@ -75,6 +75,7 @@ link_config "$dotfiles_root/agents/claude/settings.json" "$HOME/.claude/settings
 link_config "$dotfiles_root/agents/claude/hooks" "$HOME/.claude/hooks"
 link_config "$dotfiles_root/agents/claude/rules" "$HOME/.claude/rules"
 link_config "$dotfiles_root/agents/claude/sounds" "$HOME/.claude/sounds"
+link_config "$dotfiles_root/agents/claude/statusline-command.sh" "$HOME/.claude/statusline-command.sh"
 
 # Claude Code only reads ~/.claude/skills, so expose each shared skill there.
 for skill_path in "$dotfiles_root"/agents/skills/*/; do
