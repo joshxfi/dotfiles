@@ -25,10 +25,11 @@ I run Claude Code inside Herdr, a terminal workspace manager for coding agents. 
   - Run long-lived processes (dev servers, watchers, log tails) in a herdr tab instead of a background shell, so I can see them.
   - Read output from neighboring panes (`herdr pane read`) when debugging something I'm running.
 - Never split my current tab. Put your processes in a separate tab so my view stays clean:
-  - Create it in the background with a short label naming the project and what runs there (e.g. `goatside: vite`, `goatside: sqld`):
+  - Create it in the background with a one-word label for its purpose, like `dev`, `qa` or `test`. No project name; the workspace already shows that:
     `herdr tab create --workspace "$HERDR_WORKSPACE_ID" --cwd <dir> --label "<label>" --no-focus`
   - Start the process with `herdr pane run <root_pane.pane_id> '<command>'`, using the pane ID from the create response.
-  - For related processes, split panes inside that tab, not in mine.
+  - For related processes, split panes inside that tab, not in mine: `herdr pane split <pane_id> --direction right --no-focus` (the new ID is `result.pane.pane_id`).
+  - Label each pane with the process it runs, like `vite` or `sqld`: `herdr pane rename <pane_id> <label>`.
   - Before creating a tab, check `herdr tab list` and reuse one you already made for the same purpose.
   - Close your tabs when the work is done, unless I'm still using the server.
   - Use `herdr worktree` for isolated parallel work.
