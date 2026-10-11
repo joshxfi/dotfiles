@@ -1,20 +1,125 @@
 #!/bin/bash
-# Mirrors the oh-my-zsh "amuse" prompt: path, git branch, clock
+# Claude Code status line: path, git, context bar, session diff, model, limits
 input=$(cat)
-cwd=$(echo "$input" | jq -r '.workspace.current_dir // .cwd')
-dir="${cwd/#$HOME/~}"
 
-branch=""
-if git -C "$cwd" rev-parse --git-dir >/dev/null 2>&1; then
-  b=$(git -C "$cwd" --no-optional-locks symbolic-ref --short HEAD 2>/dev/null \
-      || git -C "$cwd" --no-optional-locks rev-parse --short HEAD 2>/dev/null)
-  mark=""
-  if [ -n "$(git -C "$cwd" --no-optional-locks status --porcelain 2>/dev/null)" ]; then
-    mark=$(printf '\033[31m!')
-  fi
-  branch=$(printf ' on \033[35m\xee\x82\xa0 %s%s\033[0m' "$b" "$mark")
+eval "$(jq -r '
+  def n(f): (f // "") | if type == "number" then floor else . end;
+  @sh "cwd=\(.workspace.current_dir // .cwd // "")
+model=\(.model.display_name // "")
+effort=\(.effort.level // "")
+fast=\(.fast_mode == true | tostring)
+ctx=\(n(.context_window.used_percentage))
+added=\(n(.cost.total_lines_added))
+removed=\(n(.cost.total_lines_removed))
+rl5=\(n(.rate_limits.five_hour.used_percentage))
+rl5_reset=\(n(.rate_limits.five_hour.resets_at))
+rl7=\(n(.rate_limits.seven_day.used_percentage))
+rl7_reset=\(n(.rate_limits.seven_day.resets_at))
+worktree=\(.worktree.name // .workspace.git_worktree // "")
+pr=\(.pr.number // "")
+pr_state=\(.pr.review_state // "")
+cold=\(.prompt_cache.caching_observed == true and .prompt_cache.warm == false | tostring)"
+' <<<"$input")"
+
+e=$'\033'
+reset="$e[0m" dim="$e[2m" bold_green="$e[1;32m"
+red="$e[31m" green="$e[32m" yellow="$e[33m" magenta="$e[35m" cyan="$e[36m"
+
+# Green under 50%, yellow under 80%, red from 80%
+level_color() {
+  if [ "$1" -ge 80 ]; then printf '%s' "${red}"
+  elif [ "$1" -ge 50 ]; then printf '%s' "${yellow}"
+  else printf '%s' "${green}"; fi
+}
+
+# Epoch to local time; BSD date first, GNU date as fallback
+fmt_time() {
+  date -r "$1" "+$2" 2>/dev/null || date -d "@$1" "+$2" 2>/dev/null
+}
+
+parts=()
+
+# Path, shortened to the last two segments when long
+dir="${cwd/#$HOME/~}"
+if [ "${#dir}" -gt 40 ]; then
+  parent="${dir%/*}"
+  dir="…/${parent##*/}/${dir##*/}"
+fi
+location="${bold_green}$dir${reset}"
+
+# Git: one status call gives branch, ahead/behind and dirty state
+if git_out=$(git -C "$cwd" --no-optional-locks status --porcelain=v2 --branch 2>/dev/null); then
+  head="" oid="" ahead=0 behind=0 dirty=""
+  while IFS= read -r line; do
+    case "$line" in
+      "# branch.head "*) head="${line#\# branch.head }" ;;
+      "# branch.oid "*) oid="${line#\# branch.oid }" ;;
+      "# branch.ab "*) read -r _ _ a b <<<"$line"; ahead="${a#+}"; behind="${b#-}" ;;
+      "#"*) ;;
+      ?*) dirty=1 ;;
+    esac
+  done <<<"$git_out"
+  [ "$head" = "(detached)" ] && head="${oid:0:7}"
+  git_seg=" on ${magenta}"$'\xee\x82\xa0'" $head"
+  [ -n "$dirty" ] && git_seg+="${red}!"
+  [ "$ahead" -gt 0 ] && git_seg+="${cyan}↑$ahead"
+  [ "$behind" -gt 0 ] && git_seg+="${cyan}↓$behind"
+  location+="$git_seg${reset}"
+fi
+[ -n "$worktree" ] && location+=" ${dim}⎇ $worktree${reset}"
+if [ -n "$pr" ]; then
+  case "$pr_state" in
+    approved) pr_mark="${green}✓" ;;
+    changes_requested) pr_mark="${red}✗" ;;
+    *) pr_mark="${yellow}•" ;;
+  esac
+  location+=" ${dim}#$pr${reset}$pr_mark${reset}"
+fi
+parts+=("$location")
+
+# Context window bar
+pct="${ctx:-0}"
+filled=$((pct * 10 / 100))
+[ "$filled" -gt 10 ] && filled=10
+bar=""
+for ((i = 0; i < 10; i++)); do
+  if [ "$i" -lt "$filled" ]; then bar+="▓"; else bar+="░"; fi
+done
+color=$(level_color "$pct")
+if [ -n "$ctx" ]; then
+  parts+=("${color}$bar $pct%${reset}")
+else
+  parts+=("${dim}$bar --${reset}")
 fi
 
-model=$(echo "$input" | jq -r '.model.display_name')
-printf '\033[1;32m%s\033[0m%s \xe2\x8c\x9a \033[1;31m%s\033[0m \033[2m%s\033[0m' \
-  "$dir" "$branch" "$(date +%H:%M:%S)" "$model"
+# Session diff
+if [ "${added:-0}" -gt 0 ] || [ "${removed:-0}" -gt 0 ]; then
+  parts+=("${green}+${added:-0}${reset} ${red}−${removed:-0}${reset}")
+fi
+
+# Model, effort, fast mode, cold cache
+meta="$model"
+[ -n "$effort" ] && meta+=" · $effort"
+meta_seg="${dim}$meta${reset}"
+[ "$fast" = true ] && meta_seg+=" ${yellow}⚡${reset}"
+[ "$cold" = true ] && meta_seg+=" ${cyan}❄${reset}"
+parts+=("$meta_seg")
+
+# Rate limits, shown from 50%, with reset time from 80%
+if [ -n "$rl5" ] && [ "$rl5" -ge 50 ]; then
+  seg="$(level_color "$rl5")5h $rl5%"
+  [ "$rl5" -ge 80 ] && [ -n "$rl5_reset" ] && seg+=" ↻$(fmt_time "$rl5_reset" %H:%M)"
+  parts+=("$seg${reset}")
+fi
+if [ -n "$rl7" ] && [ "$rl7" -ge 50 ]; then
+  seg="$(level_color "$rl7")7d $rl7%"
+  [ "$rl7" -ge 80 ] && [ -n "$rl7_reset" ] && seg+=" ↻$(fmt_time "$rl7_reset" '%a %H:%M')"
+  parts+=("$seg${reset}")
+fi
+
+out=""
+for part in "${parts[@]}"; do
+  [ -n "$out" ] && out+="  "
+  out+="$part"
+done
+printf '%s' "$out"
