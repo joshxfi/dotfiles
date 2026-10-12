@@ -28,7 +28,7 @@ Claude recreate those locally; sign-in remains a separate setup step.
 ## Set up a new machine
 
 ```sh
-git clone git@github.com:joshxfi/dotfiles.git ~/.dotfiles
+git clone https://github.com/joshxfi/dotfiles.git ~/.dotfiles
 ~/.dotfiles/install.sh
 ```
 

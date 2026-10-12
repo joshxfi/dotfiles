@@ -10,6 +10,7 @@
 
 - Use the GitHub CLI (`gh`) for GitHub operations: pushing branches, opening and editing PRs, reading issues and PR comments, and checking CI (`gh pr checks`, `gh run view`).
 - Prefer `gh` over the GitHub MCP plugin.
+- Use HTTPS remotes so `git push` authenticates through `gh`'s credential helper. Don't switch remotes to SSH.
 - If `gh` or `git push` fails on authentication, run `gh auth status` and ask me to log in again. Don't work around it.
 - PR titles follow the commit rules above.
 - PR descriptions are prose, so apply the unslop rules from the Writing section before running `gh pr create` or `gh pr edit`.
