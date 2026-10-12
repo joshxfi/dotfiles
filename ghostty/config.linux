@@ -5,7 +5,7 @@ theme = Ayu
 font-size = 14
 cursor-style = block
 background-opacity = 0.8
-background-blur-radius = 18
+background-blur = 18
 
 # Behavior
 shell-integration-features = no-cursor
