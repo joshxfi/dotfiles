@@ -57,9 +57,7 @@ link_config "$dotfiles_root/nvim" "$HOME/.config/nvim"
 link_config "$dotfiles_root/herdr/config.$platform.toml" "$HOME/.config/herdr/config.toml"
 
 if [ "$platform" = linux ]; then
-  link_config "$dotfiles_root/hypr" "$HOME/.config/hypr"
-  link_config "$dotfiles_root/noctalia" "$HOME/.config/noctalia"
-  link_config "$dotfiles_root/uwsm" "$HOME/.config/uwsm"
+  "$dotfiles_root/plasma/apply.sh"
 fi
 
 # Agent tools: portable settings, instructions, hooks, and user-installed skills.

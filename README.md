@@ -7,9 +7,7 @@ repository is the source of truth for every managed configuration.
 
 - `ghostty/config.{macos,linux}`
 - `herdr/config.{macos,linux}.toml`
-- `hypr/`: Hyprland (Linux only)
-- `noctalia/`: Noctalia shell (Linux only)
-- `uwsm/`: UWSM session environment (Linux only)
+- `plasma/apply.sh`: curated KDE Plasma settings (Linux only)
 - `nvim/`
 - `zsh/`
 - `git/config`
@@ -37,7 +35,9 @@ The installer creates symbolic links. If a destination already exists, it is
 moved to a timestamped directory under `~/.dotfiles-backups/` first.
 
 It detects macOS or Linux and selects the matching Ghostty, herdr, and Codex
-profiles.
+profiles. On Linux it also runs `plasma/apply.sh`, which writes a few KDE
+Plasma settings (such as Caps Lock as Ctrl) with `kwriteconfig6` rather than
+symlinking KDE's frequently rewritten rc files. Rerun it after changing it.
 The shared Zsh config uses `~/Library/pnpm` on macOS. On Linux it uses
 `$XDG_DATA_HOME/pnpm`, falling back to `~/.local/share/pnpm`. Claude sound hooks
 use the first available player from `afplay`, `pw-play`, `paplay`, or `aplay`.
