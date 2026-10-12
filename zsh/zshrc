@@ -7,8 +7,6 @@ if [[ -r "$ZSH/oh-my-zsh.sh" ]]; then
   source "$ZSH/oh-my-zsh.sh"
 fi
 
-bindkey -M viins jj vi-cmd-mode
-export VI_MODE_SET_CURSOR=true
 export SHARP_IGNORE_GLOBAL_LIBVIPS=1
 
 # Managed configuration
@@ -20,6 +18,3 @@ source "$HOME/.config/zsh/tools.zsh"
 
 # bun completions
 [ -s "/Users/joshxfi/.bun/_bun" ] && source "/Users/joshxfi/.bun/_bun"
-
-# Turso
-export PATH="$PATH:/home/joshxfi/.turso"
