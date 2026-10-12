@@ -23,6 +23,7 @@ path=(
   "$PNPM_HOME"
   "$HOME/.bun/bin"
   "$HOME/.lmstudio/bin"
+  "$HOME/.turso"
   $platform_paths
   $path
 )

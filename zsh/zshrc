@@ -9,6 +9,7 @@ fi
 
 bindkey -M viins jj vi-cmd-mode
 export VI_MODE_SET_CURSOR=true
+export SHARP_IGNORE_GLOBAL_LIBVIPS=1
 
 # Managed configuration
 source "$HOME/.config/zsh/aliases.zsh"
