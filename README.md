@@ -8,6 +8,7 @@ repository is the source of truth for every managed configuration.
 - `ghostty/config.{macos,linux}`
 - `herdr/config.{macos,linux}.toml`
 - `plasma/apply.sh`: curated KDE Plasma settings (Linux only)
+- `dns/apply.sh`: Cloudflare DNS (1.1.1.1) for the whole machine
 - `nvim/`
 - `zsh/`
 - `git/config`
@@ -48,6 +49,22 @@ For containers or unusual environments, override detection with
 ```sh
 DOTFILES_PLATFORM=linux ~/.dotfiles/install.sh
 ```
+
+The installer does not change DNS, because that is a machine-wide setting
+that needs `sudo` on Linux. Run the DNS script once on each machine:
+
+```sh
+~/.dotfiles/dns/apply.sh
+```
+
+On macOS it sets the DNS servers of every enabled network service that has a
+device, so VPN services such as Tailscale keep their own DNS. On Linux it writes
+`/etc/NetworkManager/conf.d/90-cloudflare-dns.conf`, a global DNS config that
+overrides the servers each connection gets from DHCP. Without NetworkManager it
+writes `/etc/systemd/resolved.conf.d/90-cloudflare-dns.conf` instead.
+
+To undo it, run `networksetup -setdnsservers <service> empty` on macOS. On
+Linux, delete the file and reload NetworkManager or restart systemd-resolved.
 
 herdr plugins are not managed. Install the repository picker (bound to
 `prefix+o`, requires `bun`) separately:
