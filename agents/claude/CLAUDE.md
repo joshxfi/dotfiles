@@ -6,6 +6,14 @@
 - Subject line only. No body, no trailers.
 - Lowercase, imperative mood, no trailing period, under ~72 chars.
 
+## GitHub
+
+- Use the GitHub CLI (`gh`) for GitHub operations: pushing branches, opening and editing PRs, reading issues and PR comments, and checking CI (`gh pr checks`, `gh run view`).
+- Prefer `gh` over the GitHub MCP plugin.
+- If `gh` or `git push` fails on authentication, run `gh auth status` and ask me to log in again. Don't work around it.
+- PR titles follow the commit rules above.
+- PR descriptions are prose, so apply the unslop rules from the Writing section before running `gh pr create` or `gh pr edit`.
+
 ## Browser QA
 
 - Use the `browser-control` skill to QA anything in a browser: verifying UI changes, clicking through flows, checking console and network.
