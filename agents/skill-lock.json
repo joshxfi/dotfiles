@@ -78,18 +78,18 @@
       "sourceType": "github",
       "sourceUrl": "https://github.com/anomalyco/browser-control.git",
       "skillPath": "skills/browser-control/SKILL.md",
-      "skillFolderHash": "17cb957d007cf2c0d3ec99a0fc3c7c90d6032a88",
+      "skillFolderHash": "82e22be706cd8d4c759f589ca40d8c2fbb1b0da8",
       "installedAt": "2026-08-13T06:43:02.845Z",
-      "updatedAt": "2026-10-07T12:53:50.783Z"
+      "updatedAt": "2026-10-13T12:17:59.573Z"
     },
     "unslop": {
       "source": "cursor/plugins",
       "sourceType": "github",
       "sourceUrl": "https://github.com/cursor/plugins.git",
       "skillPath": "pstack/skills/unslop/SKILL.md",
-      "skillFolderHash": "d5baa969e71c4ddb563412b0ec170fa3b05b6d6e",
+      "skillFolderHash": "4e572dd70e5557f490e3991c52ea58f0dcee8936",
       "installedAt": "2026-08-23T12:42:57.957Z",
-      "updatedAt": "2026-10-01T09:53:15.146Z"
+      "updatedAt": "2026-10-13T12:18:03.176Z"
     },
     "install-anti-slop": {
       "source": "dmmulroy/anti-slop",

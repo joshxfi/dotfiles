@@ -9,6 +9,11 @@ Browser Control is a **driver**, not an agent. The calling agent decides what to
 do; Browser Control runs deterministic Playwright code in the user's visible
 browser.
 
+When Browser Control is installed as an OpenCode plugin, the plugin already
+registers this MCP server and exposes the packaged workflow as the `@browser`
+skill. Do not ask the user to install this skill separately or add an MCP
+configuration. Browser extension approval remains a separate user step.
+
 Use one loop throughout: **inspect, act, verify**. Inspect the real page before
 choosing locators, act through the narrowest stable control, then verify the
 result through a URL or fresh page read. Never treat a successful click or human
@@ -381,10 +386,18 @@ when another command needs to branch on `ok`, `value`, `error`, `warnings`, or
 browser-control execute --json --session github '({ url: page.url() })' | jq .value.url
 ```
 
-Playwright downloads are unavailable through extension-backed tabs because
-Chromium blocks download artifact control through `chrome.debugger`. If the
-page exposes the payload through fetch or an API response, read the bytes in the
-page and write them with `fs`. Do not retry `page.waitForEvent("download")`.
+`page.waitForEvent("download")` intercepts both `Content-Disposition: attachment`
+responses (via CDP `Fetch`) and `<a download>` / `blob:` / `data:` links without
+opening Chrome's native Save confirmation dialog, returning a `Download` with
+`suggestedFilename()`, `await dl.path()`, and `await dl.saveAs(targetPath)`:
+
+```ts
+const dl = page.waitForEvent("download", { timeout: 30_000 })
+await page.getByRole("button", { name: /Generate a private key/i }).click()
+const download = await dl
+await download.saveAs("/tmp/private-key.pem")
+return { filename: download.suggestedFilename(), savedPath: await download.path() }
+```
 
 Pages with WebMCP enabled can expose structured page tools. Discover and call
 them through the execute helper; names, descriptions, schemas, and results come
