@@ -67,8 +67,7 @@ To undo it, run `networksetup -setdnsservers <service> empty` on macOS. On
 Linux, delete the file and reload NetworkManager or restart systemd-resolved.
 
 `herdr/plugins/active-first` moves a workspace to the top of the sidebar when
-an agent in it starts working. It goes below workspaces that already have a
-working or blocked agent. Link it once:
+an agent in it starts working. Link it once:
 
 ```sh
 herdr plugin link ~/.dotfiles/herdr/plugins/active-first
