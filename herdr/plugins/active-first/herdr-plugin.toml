@@ -1,0 +1,10 @@
+id = "joshxfi.active-first"
+name = "Active First"
+version = "0.1.0"
+min_herdr_version = "0.9.0"
+description = "Move a workspace to the top when an agent in it starts working."
+platforms = ["linux", "macos"]
+
+[[events]]
+on = "pane.agent_status_changed"
+command = ["python3", "active_first.py"]

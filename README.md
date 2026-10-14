@@ -73,6 +73,14 @@ herdr plugins are not managed. Install the repository picker (bound to
 herdr plugin install princejoogie/herdr-repo-picker
 ```
 
+`herdr/plugins/active-first` moves a workspace to the top of the sidebar when
+an agent in it starts working. It goes below workspaces that already have a
+working or blocked agent. Link it once:
+
+```sh
+herdr plugin link ~/.dotfiles/herdr/plugins/active-first
+```
+
 ## Daily use
 
 Edit files through their normal paths (`~/.zshrc`, `~/.config/ghostty/config`,
