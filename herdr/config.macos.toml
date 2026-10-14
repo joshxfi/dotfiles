@@ -19,7 +19,8 @@ navigate_pane_down = "down"
 next_workspace = "cmd+j"
 previous_workspace = "cmd+k"
 previous_tab = ["prefix+p", "cmd+h"]
-next_tab = ["prefix+n", "cmd+l"]
+next_tab = "cmd+l"
+new_workspace = "prefix+n"
 
 [ui.toast]
 delivery = "terminal"
