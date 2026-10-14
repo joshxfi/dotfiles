@@ -66,13 +66,6 @@ writes `/etc/systemd/resolved.conf.d/90-cloudflare-dns.conf` instead.
 To undo it, run `networksetup -setdnsservers <service> empty` on macOS. On
 Linux, delete the file and reload NetworkManager or restart systemd-resolved.
 
-herdr plugins are not managed. Install the repository picker (bound to
-`prefix+o`, requires `bun`) separately:
-
-```sh
-herdr plugin install princejoogie/herdr-repo-picker
-```
-
 `herdr/plugins/active-first` moves a workspace to the top of the sidebar when
 an agent in it starts working. It goes below workspaces that already have a
 working or blocked agent. Link it once:

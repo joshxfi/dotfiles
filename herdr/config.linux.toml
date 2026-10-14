@@ -15,19 +15,11 @@ navigate_workspace_down = "j"
 # panes move to the arrows since j/k now walk workspaces
 navigate_pane_up = "up"
 navigate_pane_down = "down"
-# prefix+o is taken by the repo-picker binding below.
-open_notification_target = ""
 # Alt+j/k walk workspaces, Alt+h/l walk tabs (macOS uses Cmd; Meta belongs to Plasma).
 next_workspace = "alt+j"
 previous_workspace = "alt+k"
 previous_tab = ["prefix+p", "alt+h"]
 next_tab = ["prefix+n", "alt+l"]
-
-# Repository Picker (princejoogie.repo-picker)
-[[keys.command]]
-key = "prefix+o"
-type = "plugin_action"
-command = "princejoogie.repo-picker.open"
 
 [ui.toast]
 delivery = "terminal"
