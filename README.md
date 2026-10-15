@@ -73,6 +73,23 @@ an agent in it starts working. Link it once:
 herdr plugin link ~/.dotfiles/herdr/plugins/active-first
 ```
 
+`herdr/plugins/keep-awake` keeps a Mac awake while any agent is working, with
+the lid closed too, and lets it sleep again once every agent stops. Lid-closed
+mode uses `pmset disablesleep`, so it needs a sudoers rule that allows only
+that command:
+
+```sh
+herdr plugin link ~/.dotfiles/herdr/plugins/keep-awake
+sudo install -m 0440 -o root -g wheel ~/.dotfiles/herdr/plugins/keep-awake/sudoers /etc/sudoers.d/herdr-keep-awake
+```
+
+Without the rule, the plugin still blocks idle sleep but not lid-closed sleep.
+It leaves `disablesleep` on while a `nosleep` session is running. While it holds
+lid-closed mode, it sets the built-in display to 0 when the lid closes and
+restores it when the lid opens, using `nosleep-brightness` from `nosleep`. On
+battery at 10% or below, it gives up lid-closed mode so a closed Mac sleeps
+instead of running flat.
+
 ## Daily use
 
 Edit files through their normal paths (`~/.zshrc`, `~/.config/ghostty/config`,

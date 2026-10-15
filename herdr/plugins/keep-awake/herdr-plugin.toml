@@ -1,0 +1,14 @@
+id = "joshxfi.keep-awake"
+name = "Keep Awake"
+version = "0.2.0"
+min_herdr_version = "0.9.0"
+description = "Keep the Mac awake, lid closed included, while any agent is working."
+platforms = ["macos"]
+
+# Clears a leftover disablesleep if Herdr exited while an agent was working.
+[[startup]]
+command = ["python3", "keep_awake.py"]
+
+[[events]]
+on = "pane.agent_status_changed"
+command = ["python3", "keep_awake.py"]
