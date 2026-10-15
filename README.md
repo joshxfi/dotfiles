@@ -90,6 +90,10 @@ restores it when the lid opens, using `nosleep-brightness` from `nosleep`. On
 battery at 10% or below, it gives up lid-closed mode so a closed Mac sleeps
 instead of running flat.
 
+On Linux the plugin holds a systemd-inhibit sleep lock while any agent is
+working, so the PC doesn't suspend. It needs no sudoers rule, and the screen can
+still turn off and lock. Link it with the same `herdr plugin link` command.
+
 ## Daily use
 
 Edit files through their normal paths (`~/.zshrc`, `~/.config/ghostty/config`,

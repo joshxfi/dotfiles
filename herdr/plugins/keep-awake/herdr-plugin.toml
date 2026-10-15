@@ -1,9 +1,9 @@
 id = "joshxfi.keep-awake"
 name = "Keep Awake"
-version = "0.2.0"
+version = "0.3.0"
 min_herdr_version = "0.9.0"
-description = "Keep the Mac awake, lid closed included, while any agent is working."
-platforms = ["macos"]
+description = "Keep the machine awake while any agent is working, a closed Mac lid included."
+platforms = ["macos", "linux"]
 
 # Clears a leftover disablesleep if Herdr exited while an agent was working.
 [[startup]]
