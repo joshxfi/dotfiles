@@ -21,6 +21,7 @@ previous_workspace = "cmd+k"
 previous_tab = ["prefix+p", "cmd+h"]
 next_tab = "cmd+l"
 new_workspace = "prefix+n"
+new_worktree = "prefix+w"
 
 [ui.toast]
 delivery = "terminal"
